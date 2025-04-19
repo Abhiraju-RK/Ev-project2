@@ -41,6 +41,9 @@ def user_register(request):
         if len(phone) != 10 or not phone.isdigit():
             messages.error(request, 'Phone number must be exactly 10 digits and contain only numbers!')
             return redirect('user_register')
+        if len(password)<5:
+            messages.error(request,"Password must be above five character !!")
+            return redirect('user_register')
         
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
@@ -204,6 +207,10 @@ def contact(request):
         mail=request.POST.get('mail')
         phone=request.POST.get('phone')
         message=request.POST.get('message')
+
+        if len(phone) != 10 or not phone.isdigit():
+            messages.error(request, 'Phone number must be exactly 10 digits and contain only numbers!')
+            return redirect('contact')
 
         contacts=Contact.objects.create(user=user,name=name,mail=mail,phone=phone,message=message)
         contacts.save()
