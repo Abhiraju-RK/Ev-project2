@@ -239,7 +239,7 @@ def add_location(request):
         location_name = request.POST.get("location")
 
         try:
-            admin_user = AdminUser.objects.get(user=request.user)  # 🔥 This line fixes the issue
+            admin_user = AdminUser.objects.get(user=request.user) 
 
             if district and location_name:
                 if district not in dict(Location.DISTRICT_CHOICES):
