@@ -1,0 +1,90 @@
+{% extends 'app/user_header.html' %}
+{% block title %}My Booked Slots{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Booked Slots</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f0f0;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .slot-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .slot-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .slot-info {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #444;
+        }
+        .slot-info i {
+            margin-right: 10px;
+            color: #007BFF;
+        }
+        .payment-status {
+            font-weight: bold;
+            color: #28a745;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .pending-status {
+            color: #dc3545;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .no-bookings {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<h2><i class="fa fa-calendar-check"></i> My Booked Slots</h2>
+
+{% if bookings %}
+<div class="slot-container">
+    {% for booking in bookings %}
+    <div class="slot-card">
+        <div class="slot-info"><i class="fa fa-map-marker-alt"></i><strong>Station:</strong> {{ booking.slot.station.name }}</div>
+        <div class="slot-info"><i class="fa fa-clock"></i><strong>Slot Time:</strong> {{ booking.booking_time }}</div>
+        <div class="slot-info"><i class="fa fa-calendar-day"></i><strong>Date:</strong> {{ booking.booking_date }}</div>
+        <div class="slot-info"><i class="fa fa-calendar-plus"></i><strong>Booked At:</strong> {{ booking.booked_at|date:"F j, Y, h:i A" }}</div>
+        
+        <div class="slot-info">
+            <i class="fa fa-money-bill-wave"></i><strong>Payment Status:</strong>
+            {% if booking.payment_status == "Completed" %}
+                <span class="payment-status">{{ booking.payment_status }}</span>
+            {% else %}
+                <a href="{% url 'dummy_payment' booking.id %}" class="pending-status">{{ booking.payment_status }}</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <div class="no-bookings"><i class="fa fa-info-circle"></i> You haven’t booked any slots yet.</div>
+{% endif %}
+
+</body>
+</html>
+{% endblock %}

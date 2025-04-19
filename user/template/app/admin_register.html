@@ -1,0 +1,111 @@
+
+{% extends 'app/header.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f7f9;
+    }
+
+    .register-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .register-container label {
+        display: block;
+        margin-bottom: 5px;
+        color: #444;
+    }
+
+    .register-container input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: border 0.3s;
+    }
+
+    .register-container input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .register-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .register-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .register-container p {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .register-container a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .register-container a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="register-container">
+    <h2>Staff Registration</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        <label>Username:</label>
+        <input type="text" name="username">
+
+        <label>Email:</label>
+        <input type="email" name="email">
+
+        <label>Phone:</label>
+        <input type="text" name="phone">
+
+        <label>Password:</label>
+        <input type="password" name="password">
+
+        <label>Confirm Password:</label>
+        <input type="password" name="confirm_pass">
+
+        <label>Super User:</label>
+        <input type="checkbox" name="is_superuser">
+
+        <button type="submit">Register as Admin</button>
+    </form>
+
+    <p>Already have a staff account? <a href="{% url 'admin_login' %}">Login</a></p>
+</div>
+{% endblock %}

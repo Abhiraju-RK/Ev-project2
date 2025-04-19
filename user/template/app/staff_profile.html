@@ -1,0 +1,105 @@
+{% extends 'app/staff_header.html' %}
+{% block title %}Staff Profile{% endblock %}
+
+{% block content %}
+<style>
+    .profile-container {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .profile-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #007bff;
+    }
+
+    .profile-container label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .profile-container input[type="text"],
+    .profile-container input[type="email"],
+    .profile-container input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .profile-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .profile-container button:hover {
+        background-color: #0056b3;
+    }
+
+    .profile-container hr {
+        margin: 40px 0 30px;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+</style>
+
+<div class="profile-container">
+    <h2>Update Staff Profile</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="staff_update">
+
+        <label>Username:</label>
+        <input type="text" name="username" value="{{ request.user.username }}">
+
+        <label>Email:</label>
+        <input type="email" name="email" value="{{ request.user.email }}">
+
+        <label>Phone:</label>
+        <input type="text" name="phone" value="{{ request.user.phone }}">
+
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <hr>
+
+    <h2>Change Password</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="staff_pass">
+
+        <label>Current Password:</label>
+        <input type="password" name="current_password">
+
+        <label>New Password:</label>
+        <input type="password" name="new_password">
+
+        <label>Confirm New Password:</label>
+        <input type="password" name="confirm_password">
+
+        <button type="submit">Change Password</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'app/admin_header.html' %}
+{% block title %}Edit Station{% endblock %}
+{% block content %}
+
+<div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; margin-bottom: 25px;">✏️ Edit Station</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="color: {% if message.tags == 'error' %}#dc3545{% else %}#28a745{% endif %}; background-color: {% if message.tags == 'error' %}#f8d7da{% else %}#d4edda{% endif %}; border: 1px solid {% if message.tags == 'error' %}#f5c6cb{% else %}#c3e6cb{% endif %}; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label><strong>Station Name:</strong></label>
+        <input type="text" name="name" value="{{ station.name }}" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
+
+        <label><strong>District:</strong></label>
+        <select name="district" onchange="this.form.submit()" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
+            <option value="">-- Select District --</option>
+            {% for dist in districts %}
+                <option value="{{ dist }}" {% if dist == selected_district %}selected{% endif %}>{{ dist }}</option>
+            {% endfor %}
+        </select>
+
+        <label><strong>Location:</strong></label>
+        <select name="location" required style="width: 100%; padding: 10px; margin-bottom: 20px;">
+            <option value="">-- Select Location --</option>
+            {% for loc in locations %}
+                <option value="{{ loc.id }}" {% if station.location.id == loc.id %}selected{% endif %}>{{ loc.name }}</option>
+            {% endfor %}
+        </select>
+
+        <div style="text-align: center;">
+            <button type="submit" style="padding: 10px 30px; background: #28a745; color: white; border: none; border-radius: 5px;">
+                Update Station
+            </button>
+        </div>
+
+        <a href="{% url 'delete_station' station.id %}" class="btn-delete" onclick="return confirm('Are you sure you want to delete this station?');"><i class="fa fa-trash-alt"></i> Delete</a>
+    </form>
+
+    <div style="text-align: center; margin-top: 15px;">
+        <a href="{% url 'station_list' %}" style="color: #007bff; text-decoration: none;">⬅️ Back to Station List</a>
+    </div>
+</div>
+
+{% endblock %}

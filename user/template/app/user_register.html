@@ -1,0 +1,121 @@
+{% extends 'app/header.html' %}
+{% block content %}
+
+<style>
+    .register-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background-color: #f9f9f9;
+    }
+
+    .register-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #444;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .message {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .message.error {
+        color: red;
+    }
+
+    .message.success {
+        color: green;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .login-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="register-container">
+    <h2>User Registration</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+       
+        <div class="form-group">
+            <label>Username:</label>
+            <input type="text" name="username" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" name="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <label>Phone:</label>
+            <input type="text" name="phone" placeholder="Enter your phone number">
+        </div>
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" name="password" placeholder="Enter your password">
+        </div>
+        <div class="form-group">
+            <label>Confirm Password:</label>
+            <input type="password" name="confirm_pass" placeholder="Confirm your password">
+        </div>
+
+        <button type="submit" class="submit-btn">Register</button>
+
+        <p class="login-link">Already have an account? <a href="{% url 'user_login' %}">Login here</a></p>
+    </form>
+</div>
+
+{% endblock %}

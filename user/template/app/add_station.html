@@ -1,0 +1,105 @@
+{% extends 'app/admin_header.html' %}
+{% block title %}Add Station{% endblock %}
+{% block content %}
+<style>
+    .input-icon {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #fafafa;
+        font-size: 14px;
+    }
+
+    .input-icon span {
+        margin-right: 10px;
+    }
+
+    .input-icon input,
+    .input-icon select {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        background-color: #000;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #333;
+    }
+
+    .back-link {
+        text-align: center;
+        display: block;
+        margin-top: 15px;
+        color: #333;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+
+<h2 style="text-align: center;">➕ Add New Station</h2>
+
+{% if messages %}
+    <div class="msg">
+        {% for message in messages %}
+            <p style="color: red; text-align: center;">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form method="POST" style="max-width: 400px; margin: auto;">
+    {% csrf_token %}
+
+    <div class="input-icon">
+        <span>🏷️</span>
+        <input type="text" name="name" placeholder="Station Name" required>
+    </div>
+
+    <div class="input-icon">
+        <span>🌍</span>
+        <select name="district" onchange="this.form.submit()" required>
+            <option value="">-- Select District --</option>
+            {% for dist in districts %}
+                <option value="{{ dist }}" {% if dist == selected_district %}selected{% endif %}>{{ dist }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="input-icon">
+        <span>📍</span>
+        <select name="location" required>
+            <option value="">-- Select Location --</option>
+            {% for loc in locations %}
+                <option value="{{ loc.id }}">{{ loc.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit</button>
+</form>
+
+<a href="{% url 'station_list' %}" class="back-link">⬅️ Back to Station List</a>  
+<a href="{% url 'add_location' %}" class="back-link">Add New-Loaction</a>  
+
+
+
+{% endblock %}

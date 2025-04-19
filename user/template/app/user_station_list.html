@@ -1,0 +1,127 @@
+{% extends 'app/user_header.html' %}
+{% block title %}Available Stations{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Stations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .station-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .station-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            width: 280px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .station-card:hover {
+            transform: scale(1.03);
+        }
+
+        .station-info {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .station-info i {
+            margin-right: 10px;
+            color: #007BFF;
+        }
+
+        .btn-book {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .btn-book:hover {
+            background-color: #218838;
+        }
+
+        .no-stations {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <h2><i class="fa fa-map-marker-alt"></i> Available Stations</h2>
+
+    <div class="search-bar">
+        <form method="get" action="{% url 'search_station' %}">
+            <input type="text" name="q" placeholder="Search by name, city or location..." value="{{ query }}">
+            <button type="submit"><i class="fa fa-search"></i> Search</button>
+        </form>
+    </div>
+
+    {% if user_stations %}
+    <div class="station-container">
+        {% for station in user_stations %}
+        <div class="station-card">
+            <div class="station-info"><i class="fa fa-building"></i><strong>Name:</strong> {{ station.name }}</div>
+            <div class="station-info"><i class="fa fa-location-dot"></i><strong>Location:</strong> {{ station.location.name }}</div>
+            <div class="station-info"><i class="fa fa-map-pin"></i><strong>District:</strong> {{ station.district }}</div>
+            <a href="{% url 'user_slot_list' station.id %}" class="btn-book"><i class="fa fa-calendar-plus"></i> View Slots</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="no-stations"><i class="fa fa-info-circle"></i> No stations found matching your search.</p>
+    {% endif %}
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'app/user_header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Payment Method</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .payment-container {
+            background-color: white;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .booking-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9fafc;
+            border-left: 5px solid #007BFF;
+            border-radius: 5px;
+        }
+
+        .booking-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <h2>Choose Payment Method</h2>
+
+    <div class="booking-info">
+        <p><strong>Station:</strong> {{ booking.slot.station.name }}</p>
+        <p><strong>Date:</strong> {{ booking.booking_date }}</p>
+        <p><strong>Time:</strong> {{ booking.booking_time }}</p>
+        <p><strong>Duration:</strong> {{ booking.duration_minutes }} minutes</p>
+        <p><strong>Total Price:</strong> ₹{{ booking.total_price }}</p>
+        <p><strong>Payment Status:</strong> {{ booking.payment_status }}</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>Select a payment method:</label>
+        <select name="payment_method" required>
+            <option value="UPI">UPI</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Net Banking">Net Banking</option>
+            <option value="Debit Card">Debit Card</option>
+            <option value="PayPal">PayPal</option>
+        </select>
+
+        <button type="submit">Pay Now</button>
+    </form>
+</div>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'app/header.html' %}
+{% block content %}
+
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        background-color: #f9f9f9;
+    }
+
+    .login-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #444;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+
+    .btn-success {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .alert {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-error, .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-container">
+    <h2>User Login</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <div>
+            <label class="form-label">Username:</label>
+            <input type="text" name="username" class="form-control" placeholder="Enter your username">
+        </div>
+        <div>
+            <label class="form-label">Password:</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter your password">
+        </div>
+
+        <button type="submit" class="btn-success">Login</button>
+        <p class="mt-3 text-center">Don't have an account? <a href="{% url 'user_register' %}">Register here</a></p>
+        
+    </form>
+</div>
+
+{% endblock %}

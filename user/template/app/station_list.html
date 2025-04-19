@@ -1,0 +1,141 @@
+{% extends 'app/admin_header.html' %}
+{% block title %}Station List{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+        font-size: 28px;
+        margin: 30px 0 20px;
+    }
+
+    .add-btn {
+        display: block;
+        width: fit-content;
+        margin: 0 auto 30px;
+        background: linear-gradient(to right, #007bff, #0056b3);
+        color: white;
+        padding: 10px 22px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-decoration: none;
+        
+    }
+
+    .add-btn:hover {
+        background: linear-gradient(to right, #0056b3, #004080);
+        transform: scale(1.03);
+    }
+
+    .station-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        padding: 20px;
+    }
+
+    .station-card {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        width: 280px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        transition: 0.3s ease;
+    }
+
+    .station-card:hover {
+        transform: scale(1.03);
+    }
+
+    .station-info {
+        font-size: 15px;
+        margin-bottom: 10px;
+        color: #444;
+    }
+
+    .station-info i {
+        margin-right: 8px;
+        color: #007bff;
+    }
+
+    .station-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+
+    .card-buttons {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 8px 14px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        color: #fff;
+        transition: all 0.2s ease;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-edit:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    .no-station {
+        text-align: center;
+        color: #888;
+        font-size: 18px;
+        margin: 50px 0;
+    }
+</style>
+
+<h2>📍 Station Management</h2>
+
+<a href="{% url 'add_station' %}" class="add-btn">➕ Add New Station</a>
+
+{% if stations %}
+<div class="station-container">
+    {% for station in stations %}
+    <div class="station-card">
+        <div class="station-title">{{ station.name }}</div>
+        <div class="station-info"><i class="fa fa-building"></i><strong>District:</strong> {{ station.district }}</div>
+        <div class="station-info"><i class="fa fa-location-dot"></i><strong>Location:</strong> {{ station.location.name }}</div>
+        <div class="card-buttons">
+            <a href="{% url 'edit_station' station.id %}" class="btn-edit"><i class="fa fa-edit"></i> Edit</a>
+            <a href="{% url 'add_slot' %}" class="btn-btn-primary"><i class="fa fa-edit"></i> Add-Slot</a>
+           
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="no-station"><i class="fa fa-info-circle"></i> No stations available. Add your first one!</p>
+{% endif %}
+{% endblock %}

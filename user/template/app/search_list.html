@@ -1,0 +1,122 @@
+{% extends 'app/user_header.html' %}
+{% block title %}Available Movies{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Movies</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .search-bar {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .movie-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 280px;
+            text-align: left;
+            transition: 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.03);
+        }
+
+        .movie-info {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .movie-info i {
+            color: #17a2b8;
+            margin-right: 8px;
+        }
+
+        .btn-view {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            padding: 8px 14px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .no-movies {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <h2><i class="fa fa-film"></i> Available Staions</h2>
+
+    <div class="search-bar">
+        <form method="get" action="{% url 'search_station' %}">
+            <input type="text" name="q" placeholder="Search by  name, or location..." value="{{ query }}">
+            <button type="submit"><i class="fa fa-search"></i> Search</button>
+        </form>
+    </div>
+
+    {% if stations %}
+    <div class="movie-container">
+        {% for station in stations %}
+        <div class="movie-card">
+            <div class="movie-info"><i class="fa fa-video"></i><strong>Title:</strong> {{ station.name }}</div>
+            <div class="movie-info"><i class="fa fa-location-dot"></i><strong>Location:</strong> {{ station.location }}</div>
+            <div class="movie-info">
+                <i class="fa fa-map"></i><strong>Map:</strong>
+                <a href="{{ station.quik_map }}" target="_blank">View Map</a>
+            </div>
+            <a href="{% url 'user_slot_list' station.id %}" class="btn-view"><i class="fa fa-calendar"></i> View Slots</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="no-movies"><i class="fa fa-info-circle"></i> No Station found matching your search.</p>
+    {% endif %}
+
+</body>
+</html>
+{% endblock %}

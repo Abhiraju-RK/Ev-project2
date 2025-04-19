@@ -1,0 +1,141 @@
+{% extends 'app/user_header.html' %}
+{% block title %}Confirm Booking{% endblock %}
+{% block content %}
+
+<style>
+    .booking-card {
+        max-width: 550px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px 35px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .booking-card h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    .form-select {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 25px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 5px;
+        display: block;
+        color: #444;
+    }
+
+    .btn-primary {
+        background-color: #28a745;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838;
+    }
+
+    .btn-secondary {
+        background-color: #dc3545;
+        padding: 10px 20px;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-left: 10px;
+        font-size: 15px;
+        display: inline-block;
+    }
+
+    .message-box {
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .message-success {
+        color: #155724;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+    }
+
+    .message-error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+
+    .slot-info p {
+        margin-bottom: 8px;
+        color: #333;
+    }
+</style>
+
+<div class="booking-card">
+    <h2>Confirm Slot Booking</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message-box {% if message.tags == 'error' %}message-error{% else %}message-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="slot-info">
+            <p><strong>Station:</strong> {{ slot.station.name }}</p>
+            <p><strong>Slot Name:</strong> {{ slot.name }}</p>
+            <p><strong>Price (per 30 mins):</strong> ₹{{ slot.price }}</p>
+        </div>
+
+        <label class="form-label" for="booking_date">Select Booking Date:</label>
+        <input type="date" name="booking_date" required class="form-control">
+
+        <label class="form-label" for="booking_time">Select Booking Time:</label>
+        <input type="time" name="booking_time" required class="form-control">
+
+        <label class="form-label" for="duration_minutes">Select Duration:</label>
+        <select name="duration_minutes" class="form-select" required>
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="90">1 hour 30 minutes</option>
+            <option value="120">2 hours</option>
+        </select>
+
+        <div style="text-align: center;">
+            <button type="submit" class="btn-primary">Confirm Booking</button>
+            <a href="{% url 'user_slot_list' slot.station.id %}" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
